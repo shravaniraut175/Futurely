@@ -1,25 +1,28 @@
-import { UserPlus, FileEdit, Users, LineChart } from "lucide-react";
+import { UserPlus, FileEdit, CheckCircle2, LineChart } from "lucide-react";
 
 export const howItWorks = [
   {
-    title: "Professional Onboarding",
-    description: "Share your industry and expertise for personalized guidance",
+    title: "Smart Onboarding",
+    description:
+      "Provide your work experience, skills, and target roles so the AI understands your profile.",
     icon: <UserPlus className="w-8 h-8 text-primary" />,
   },
   {
-    title: "Craft Your Documents",
-    description: "Create ATS-optimized resumes and compelling cover letters",
+    title: "AI Resume Generation",
+    description:
+      "Generate optimized resumes tailored to specific roles, highlighting your strengths and relevant achievements.",
     icon: <FileEdit className="w-8 h-8 text-primary" />,
   },
   {
-    title: "Prepare for Interviews",
+    title: "Skill Gap Recommendations",
     description:
-      "Practice with AI-powered mock interviews tailored to your role",
-    icon: <Users className="w-8 h-8 text-primary" />,
+      "Get insights on missing skills and actionable suggestions to make your resume stronger and future-ready.",
+    icon: <CheckCircle2 className="w-8 h-8 text-primary" />,
   },
   {
-    title: "Track Your Progress",
-    description: "Monitor improvements with detailed performance analytics",
+    title: "Track Impact & Progress",
+    description:
+      "Monitor improvements and measurable productivity gains from optimized resumes and targeted applications.",
     icon: <LineChart className="w-8 h-8 text-primary" />,
   },
 ];

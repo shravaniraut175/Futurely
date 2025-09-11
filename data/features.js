@@ -1,27 +1,28 @@
-import { BrainCircuit, Briefcase, LineChart, ScrollText } from "lucide-react";
+import { BrainCircuit, FileText, LineChart, ScrollText } from "lucide-react";
 
 export const features = [
   {
     icon: <BrainCircuit className="w-10 h-10 mb-4 text-primary" />,
-    title: "AI-Powered Career Guidance",
+    title: "AI-Powered Resume Optimization",
     description:
-      "Get personalized career advice and insights powered by advanced AI technology.",
+      "PragatiIQ analyzes your experience and target role to generate resumes that highlight strengths, fill skill gaps, and maximize impact.",
   },
   {
-    icon: <Briefcase className="w-10 h-10 mb-4 text-primary" />,
-    title: "Interview Preparation",
+    icon: <FileText className="w-10 h-10 mb-4 text-primary" />,
+    title: "Role-Specific Templates",
     description:
-      "Practice with role-specific questions and get instant feedback to improve your performance.",
+      "Create ATS-friendly resumes tailored to the exact job you’re applying for, ensuring relevance and better chances of selection.",
   },
   {
     icon: <LineChart className="w-10 h-10 mb-4 text-primary" />,
-    title: "Industry Insights",
+    title: "Skill Gap Analysis",
     description:
-      "Stay ahead with real-time industry trends, salary data, and market analysis.",
+      "Our AI identifies missing skills for your target role and suggests improvements, turning your resume into a personal growth plan.",
   },
   {
     icon: <ScrollText className="w-10 h-10 mb-4 text-primary" />,
-    title: "Smart Resume Creation",
-    description: "Generate ATS-optimized resumes with AI assistance.",
+    title: "Productivity & Time-Saving",
+    description:
+      "Generate professional resumes in minutes instead of hours, streamlining job applications and saving valuable time.",
   },
 ];

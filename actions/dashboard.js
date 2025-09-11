@@ -11,21 +11,36 @@ export const generateAIInsights = async (industry) => {
   const prompt = `
           Analyze the current state of the ${industry} industry and provide insights in ONLY the following JSON format without any additional notes or explanations:
           {
-            "salaryRanges": [
-              { "role": "string", "min": number, "max": number, "median": number, "location": "string" }
-            ],
             "growthRate": number,
             "demandLevel": "High" | "Medium" | "Low",
-            "topSkills": ["skill1", "skill2"],
+            "topSkills": ["skill1", "skill2", "skill3", "skill4", "skill5"],
             "marketOutlook": "Positive" | "Neutral" | "Negative",
-            "keyTrends": ["trend1", "trend2"],
-            "recommendedSkills": ["skill1", "skill2"]
+            "keyTrends": ["trend1", "trend2", "trend3", "trend4", "trend5"],
+            "recommendedSkills": [
+              "⭐ SKILL1",
+              "⭐ SKILL2",
+              "⭐ SKILL3",
+              "⭐ SKILL4",
+              "⭐ SKILL5",
+              "⭐ SKILL6",
+              "⭐ SKILL7",
+              "⭐ SKILL8"
+            ],
+            "learningResources": [
+              {
+                "skill": "SKILL_NAME",
+                "courses": [
+                  { "title": "Course Title", "provider": "Platform Name", "url": "https://example.com" }
+                ]
+              }
+            ]
           }
           
-          IMPORTANT: Return ONLY the JSON. No additional text, notes, or markdown formatting.
-          Include at least 5 common roles for salary ranges.
-          Growth rate should be a percentage.
-          Include at least 5 skills and trends.
+          IMPORTANT:
+          - Return ONLY the JSON. No additional text, notes, or markdown formatting.
+          - Ensure "recommendedSkills" contains AT LEAST 8 strong, future-proof skills with emphasis (⭐ prefix and UPPERCASE).
+          - For each recommended skill, add at least 2-3 good online courses (Coursera, Udemy, edX, YouTube, etc.) inside "learningResources".
+          - Use real-looking links (working URLs from known platforms).
         `;
 
   const result = await model.generateContent(prompt);

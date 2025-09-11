@@ -1,40 +1,30 @@
-import React from "react";
+"use client";
+
+import HeroSection from "@/components/hero";
+import { features } from "@/data/features";
+import { Card, CardContent } from "@/components/ui/card";
+import { howItWorks } from "@/data/howItWorks";
+import { testimonial } from "@/data/testimonial";
+import Image from "next/image";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion";
+import { faqs } from "@/data/faqs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  ArrowRight,
-  Trophy,
-  Target,
-  Sparkles,
-  CheckCircle2,
-} from "lucide-react";
-import HeroSection from "@/components/hero";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import Image from "next/image";
-import { features } from "@/data/features";
-import { testimonial } from "@/data/testimonial";
-import { faqs } from "@/data/faqs";
-import { howItWorks } from "@/data/howItWorks";
+import { ArrowRight, Trophy, Target, Sparkles, CheckCircle2, } from "lucide-react";
+import { motion } from "framer-motion";
+import React from "react";
 
 export default function LandingPage() {
   return (
-    <>
+    <div>
       <div className="grid-background"></div>
 
-      {/* Hero Section */}
       <HeroSection />
 
-      {/* Features Section */}
       <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl font-bold tracking-tighter text-center mb-12">
-            Powerful Features for Your Career Growth
+            AI-Powered Features to Boost Your Career
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {features.map((feature, index) => (
@@ -57,38 +47,46 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Stats Section */}
       <section className="w-full py-12 md:py-24 bg-muted/50">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto text-center">
+
             <div className="flex flex-col items-center justify-center space-y-2">
               <h3 className="text-4xl font-bold">50+</h3>
               <p className="text-muted-foreground">Industries Covered</p>
+              <p className="text-sm text-gray-400">From Tech to Healthcare</p>
             </div>
+
             <div className="flex flex-col items-center justify-center space-y-2">
               <h3 className="text-4xl font-bold">1000+</h3>
               <p className="text-muted-foreground">Interview Questions</p>
+              <p className="text-sm text-gray-400">Curated by AI Experts</p>
             </div>
+
             <div className="flex flex-col items-center justify-center space-y-2">
               <h3 className="text-4xl font-bold">95%</h3>
               <p className="text-muted-foreground">Success Rate</p>
+              <p className="text-sm text-gray-400">Users Land Dream Jobs</p>
             </div>
+
             <div className="flex flex-col items-center justify-center space-y-2">
               <h3 className="text-4xl font-bold">24/7</h3>
               <p className="text-muted-foreground">AI Support</p>
+              <p className="text-sm text-gray-400">Instant Guidance Anytime</p>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
       <section className="w-full py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl font-bold mb-4">How It Works</h2>
+            <h2 className="text-3xl font-bold mb-4">How It Works ?</h2>
             <p className="text-muted-foreground">
-              Four simple steps to accelerate your career growth
+              Follow these four steps to supercharge your career growth
             </p>
+            <div className="h-1 w-24 bg-primary mx-auto mt-2 rounded-full animate-pulse"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
@@ -108,10 +106,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="w-full py-12 md:py-24 bg-muted/50">
+      {/* <section className="w-full py-12 md:py-24 bg-muted/50">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl font-bold text-center mb-12">
-            What Our Users Say
+            What Our users Say About PragatiIQ
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {testimonial.map((testimonial, index) => (
@@ -155,9 +153,8 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
-      {/* FAQ Section */}
       <section className="w-full py-12 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-12">
@@ -165,7 +162,7 @@ export default function LandingPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-muted-foreground">
-              Find answers to common questions about our platform
+              Explore answers to the most common inquiries about PragatiIQ and how it can support your career growth.
             </p>
           </div>
 
@@ -184,29 +181,54 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="w-full">
-        <div className="mx-auto py-24 gradient rounded-lg">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold tracking-tighter text-primary-foreground sm:text-4xl md:text-5xl">
-              Ready to Accelerate Your Career?
-            </h2>
-            <p className="mx-auto max-w-[600px] text-primary-foreground/80 md:text-xl">
-              Join thousands of professionals who are advancing their careers
-              with AI-powered guidance.
-            </p>
+        <div className="mx-auto py-24 relative rounded-lg overflow-hidden bg-gradient-to-r from-gray-900 via-purple-900 to-indigo-900">
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-10 animate-[pulse_20s_linear_infinite]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.1 }}
+            transition={{ duration: 5, repeat: Infinity, repeatType: "reverse" }}
+          />
+
+          <div className="flex flex-col items-center justify-center space-y-4 text-center max-w-3xl mx-auto relative z-10">
+            <motion.h2
+              className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl"
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
+              Propel Your Career with Intelligent Guidance
+            </motion.h2>
+
+            <motion.p
+              className="mx-auto max-w-[600px] text-gray-300 md:text-xl"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              Leverage AI-powered insights to unlock new opportunities and achieve
+              your professional goals faster than ever.
+            </motion.p>
+
             <Link href="/dashboard" passHref>
-              <Button
-                size="lg"
-                variant="secondary"
-                className="h-11 mt-5 animate-bounce"
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                Start Your Journey Today <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="h-11 mt-5 animate-bounce"
+                >
+                  Start Your Journey Today{" "}
+                  <ArrowRight className="ml-2 h-4 w-4 text-white" />
+                </Button>
+              </motion.div>
             </Link>
           </div>
         </div>
       </section>
-    </>
+
+    </div>
   );
 }

@@ -7,24 +7,25 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
 
-export async function generateQuiz() {
+// Helper: Get authenticated user
+async function getAuthUser(selectFields = {}) {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 
   const user = await db.user.findUnique({
     where: { clerkUserId: userId },
-    select: {
-      industry: true,
-      skills: true,
-    },
+    select: { id: true, ...selectFields },
   });
-
   if (!user) throw new Error("User not found");
+  return user;
+}
+
+// Generate a technical quiz based on user industry/skills
+export async function generateQuiz() {
+  const user = await getAuthUser({ industry: true, skills: true });
 
   const prompt = `
-    Generate 10 technical interview questions for a ${
-      user.industry
-    } professional${
+    Generate 10 technical interview questions for a ${user.industry} professional${
     user.skills?.length ? ` with expertise in ${user.skills.join(", ")}` : ""
   }.
     
@@ -45,11 +46,9 @@ export async function generateQuiz() {
 
   try {
     const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
+    const text = result.response.text();
     const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
     const quiz = JSON.parse(cleanedText);
-
     return quiz.questions;
   } catch (error) {
     console.error("Error generating quiz:", error);
@@ -57,15 +56,9 @@ export async function generateQuiz() {
   }
 }
 
+// Save quiz results and optionally generate improvement tips
 export async function saveQuizResult(questions, answers, score) {
-  const { userId } = await auth();
-  if (!userId) throw new Error("Unauthorized");
-
-  const user = await db.user.findUnique({
-    where: { clerkUserId: userId },
-  });
-
-  if (!user) throw new Error("User not found");
+  const user = await getAuthUser();
 
   const questionResults = questions.map((q, index) => ({
     question: q.question,
@@ -75,10 +68,8 @@ export async function saveQuizResult(questions, answers, score) {
     explanation: q.explanation,
   }));
 
-  // Get wrong answers
   const wrongAnswers = questionResults.filter((q) => !q.isCorrect);
 
-  // Only generate improvement tips if there are wrong answers
   let improvementTip = null;
   if (wrongAnswers.length > 0) {
     const wrongQuestionsText = wrongAnswers
@@ -101,17 +92,14 @@ export async function saveQuizResult(questions, answers, score) {
 
     try {
       const tipResult = await model.generateContent(improvementPrompt);
-
       improvementTip = tipResult.response.text().trim();
-      console.log(improvementTip);
     } catch (error) {
       console.error("Error generating improvement tip:", error);
-      // Continue without improvement tip if generation fails
     }
   }
 
   try {
-    const assessment = await db.assessment.create({
+    return await db.assessment.create({
       data: {
         userId: user.id,
         quizScore: score,
@@ -120,35 +108,21 @@ export async function saveQuizResult(questions, answers, score) {
         improvementTip,
       },
     });
-
-    return assessment;
   } catch (error) {
     console.error("Error saving quiz result:", error);
     throw new Error("Failed to save quiz result");
   }
 }
 
+// Fetch all assessments for the authenticated user
 export async function getAssessments() {
-  const { userId } = await auth();
-  if (!userId) throw new Error("Unauthorized");
-
-  const user = await db.user.findUnique({
-    where: { clerkUserId: userId },
-  });
-
-  if (!user) throw new Error("User not found");
+  const user = await getAuthUser();
 
   try {
-    const assessments = await db.assessment.findMany({
-      where: {
-        userId: user.id,
-      },
-      orderBy: {
-        createdAt: "asc",
-      },
+    return await db.assessment.findMany({
+      where: { userId: user.id },
+      orderBy: { createdAt: "asc" },
     });
-
-    return assessments;
   } catch (error) {
     console.error("Error fetching assessments:", error);
     throw new Error("Failed to fetch assessments");

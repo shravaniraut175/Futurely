@@ -1,32 +1,27 @@
 export const faqs = [
   {
-    question: "What makes Sensai unique as a career development tool?",
+    question: "How does PragatiIQ optimize my resume for specific roles?",
     answer:
-      "Sensai combines AI-powered career tools with industry-specific insights to help you advance your career. Our platform offers three main features: an intelligent resume builder, a cover letter generator, and an adaptive interview preparation system. Each tool is tailored to your industry and skills, providing personalized guidance for your professional journey.",
+      "PragatiIQ analyzes your skills, experience, and the target job description to create a resume that aligns with the role, highlights relevant strengths, and suggests areas for improvement.",
   },
   {
-    question: "How does Sensai create tailored content?",
+    question: "Can I edit the AI-generated resume?",
     answer:
-      "Sensai learns about your industry, experience, and skills during onboarding. It then uses this information to generate customized resumes, cover letters, and interview questions. The content is specifically aligned with your professional background and industry standards, making it highly relevant and effective.",
+      "Absolutely. You can fully customize the content, format, and style while leveraging AI suggestions to make your resume more impactful.",
   },
   {
-    question: "How accurate and up-to-date are Sensai's industry insights?",
+    question: "How does PragatiIQ help identify skill gaps?",
     answer:
-      "We update our industry insights weekly using advanced AI analysis of current market trends. This includes salary data, in-demand skills, and industry growth patterns. Our system constantly evolves to ensure you have the most relevant information for your career decisions.",
+      "Our AI compares your current profile with the requirements of your target role, highlighting missing skills and providing actionable growth recommendations.",
   },
   {
-    question: "Is my data secure with Sensai?",
+    question: "Is my data secure?",
     answer:
-      "Absolutely. We prioritize the security of your professional information. All data is encrypted and securely stored using industry-standard practices. We use Clerk for authentication and never share your personal information with third parties.",
+      "Yes. All personal and professional data is encrypted and never shared without your consent. PragatiIQ prioritizes ethical AI use and data privacy.",
   },
   {
-    question: "How can I track my interview preparation progress?",
+    question: "How much time can PragatiIQ save me?",
     answer:
-      "Sensai tracks your performance across multiple practice interviews, providing detailed analytics and improvement suggestions. You can view your progress over time, identify areas for improvement, and receive AI-generated tips to enhance your interview skills based on your responses.",
-  },
-  {
-    question: "Can I edit the AI-generated content?",
-    answer:
-      "Yes! While Sensai generates high-quality initial content, you have full control to edit and customize all generated resumes, cover letters, and other content. Our markdown editor makes it easy to refine the content to perfectly match your needs.",
+      "By automating resume creation and tailoring it for each role, PragatiIQ reduces hours of manual work to just a few minutes, boosting your productivity.",
   },
 ];
