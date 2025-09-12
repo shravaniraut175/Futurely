@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "PragatiIQ",
-  description: "AI-powered career assistant",
+  description: "Smart Pathways to Professional Success",
 };
 
 export default async function RootLayout({ children }) {
@@ -25,7 +25,7 @@ export default async function RootLayout({ children }) {
         <body className={` ${inter.className} `}>
           <ThemeProvider
             attribute="class"
-            defaultTheme="dark"           //system
+            defaultTheme="system"           //system
             enableSystem
             disableTransitionOnChange
           >
@@ -50,7 +50,7 @@ export default async function RootLayout({ children }) {
                   </p>
                 </div>
 
-                <div>
+                {/* <div>
                   <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-400">
                     Contact Members
                   </h3>
@@ -64,7 +64,7 @@ export default async function RootLayout({ children }) {
                     <li>
                       <span className="font-semibold">Shravani Raut :</span>{" "}
                       <a href="mailto:member2@gmail.com" className="hover:text-white transition-colors">
-                        shravani.236337206@vcet.edu.in
+                        shravani.236327205@vcet.edu.in
                       </a>
                     </li>
                     <li>
@@ -74,10 +74,10 @@ export default async function RootLayout({ children }) {
                       </a>
                     </li>
                   </ul>
-                </div>
+                </div> */}
 
 
-                <div>
+                {/* <div>
                   <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-400">
                     Our Principles
                   </h3>
@@ -113,11 +113,12 @@ export default async function RootLayout({ children }) {
                   </ul>
 
                 </div>
-              </div>
+              </div> */}
+            </div>
 
               <div className="border-t border-gray-700 mt-10 text-violet-950">
                 <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-                  <p>© {new Date().getFullYear()} PragatiIQ. All rights reserved by StackNova.</p>
+                  <p>© {new Date().getFullYear()} PragatiIQ. All rights reserved by StackNova.🌟</p>
                   <div className="flex gap-6 mt-3 md:mt-0">
                     <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
                     <a href="/terms" className="hover:text-white transition-colors">Terms of Service</a>

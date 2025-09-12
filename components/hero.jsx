@@ -63,9 +63,9 @@ const HeroSection = () => {
             <div ref={imageRef} className="hero-image">
 
           <Image
-            src="/logo.png"
-            width={1280}
-            height={720}
+            src="/hero.png"
+            width={700}
+            height={1200}
             alt="AI Career Assistant Dashboard"
             className="rounded-lg shadow-2xl border mx-auto"
             priority
