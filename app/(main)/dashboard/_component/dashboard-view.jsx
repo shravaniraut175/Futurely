@@ -1,14 +1,16 @@
 "use client";
 
+import { format, formatDistanceToNow } from "date-fns";
 import React, { useState } from "react";
 import {
-  BriefcaseIcon,
   LineChart,
   TrendingUp,
   TrendingDown,
-  Brain,
+  BarChartIcon,
+  ActivityIcon,
+  ZapIcon,
 } from "lucide-react";
-import { format, formatDistanceToNow } from "date-fns";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -16,79 +18,113 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
-import SkillCourses from "./SkillCourses";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 const DashboardView = ({ insights }) => {
-  const [openSkill, setOpenSkill] = useState(null);
+  const [selectedSkill, setSelectedSkill] = useState(null);
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const salaryData = insights.salaryRanges.map((range) => ({
+    name: range.role,
+    min: range.min / 1000,
+    max: range.max / 1000,
+    median: range.median / 1000,
+  }));
 
   const getDemandLevelColor = (level) => {
     switch (level.toLowerCase()) {
       case "high":
-        return "bg-green-500";
+        return "bg-emerald-500";
       case "medium":
-        return "bg-blue-400";
+        return "bg-amber-400";
       case "low":
-        return "bg-red-500";
+        return "bg-rose-500";
       default:
-        return "bg-gray-500";
+        return "bg-slate-500";
     }
   };
 
-  const marketInfo = (() => {
-    switch (insights.marketOutlook.toLowerCase()) {
+  const getMarketOutlookInfo = (outlook) => {
+    switch (outlook.toLowerCase()) {
       case "positive":
-        return { Icon: TrendingUp, color: "text-green-400" };
+        return { icon: TrendingUp, color: "text-green-500" };
       case "neutral":
-        return { Icon: LineChart, color: "text-blue-400" };
+        return { icon: LineChart, color: "text-yellow-500" };
       case "negative":
-        return { Icon: TrendingDown, color: "text-red-400" };
+        return { icon: TrendingDown, color: "text-red-500" };
       default:
-        return { Icon: LineChart, color: "text-gray-400" };
+        return { icon: LineChart, color: "text-gray-500" };
     }
-  })();
+  };
 
+  const OutlookIcon = getMarketOutlookInfo(insights.marketOutlook).icon;
+  const outlookColor = getMarketOutlookInfo(insights.marketOutlook).color;
   const lastUpdatedDate = format(new Date(insights.lastUpdated), "dd/MM/yyyy");
-  const nextUpdateDistance = formatDistanceToNow(new Date(insights.nextUpdate), {
-    addSuffix: true,
-  });
+  const nextUpdateDistance = formatDistanceToNow(
+    new Date(insights.nextUpdate),
+    { addSuffix: true }
+  );
+
+  const handleSkillClick = async (skill) => {
+    setSelectedSkill(skill);
+    setLoading(true);
+
+    try {
+      const res = await fetch(`/api/gemini-courses?skill=${skill}`);
+      const data = await res.json();
+      setCourses(data.results || []);
+    } catch (err) {
+      console.error("Error fetching courses:", err);
+      setCourses([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-950 to-black text-white px-6 md:px-12 py-8 space-y-6">
-      {/* Last Updated */}
-      <div className="flex justify-end">
-        <Badge className="text-gray-200 border-gray-600" variant="outline">
-          Last updated: {lastUpdatedDate}
+    <div className="space-y-6">
+      {/* Last Updated Badge */}
+      <div className="flex justify-between items-center">
+        <Badge variant="outline" className="text-sm px-3 py-1">
+          Updated on: {lastUpdatedDate}
         </Badge>
       </div>
 
-      {/* Top Metrics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Market Outlook */}
-        <Card className="bg-gray-800/70 backdrop-blur-md hover:shadow-2xl transition-shadow duration-300 rounded-xl border border-gray-700">
-          <CardHeader className="flex items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-200">
-              Market Outlook
+      {/* Top Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+              Market Forecast
             </CardTitle>
-            <marketInfo.Icon className={`h-5 w-5 ${marketInfo.color}`} />
+            <OutlookIcon className={`h-4 w-4 ${outlookColor}`} />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{insights.marketOutlook}</div>
-            <p className="text-xs text-gray-400">
-              Next update {nextUpdateDistance}
+            <div className="text-2xl font-bold capitalize">
+              {insights.marketOutlook}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Upcoming update in {nextUpdateDistance}
             </p>
           </CardContent>
         </Card>
 
-        {/* Industry Growth */}
-        <Card className="bg-gray-800/70 backdrop-blur-md hover:shadow-2xl transition-shadow duration-300 rounded-xl border border-gray-700">
-          <CardHeader className="flex items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-200">
-              Industry Growth
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+              Sector Growth
             </CardTitle>
-            <TrendingUp className="h-5 w-5 text-gray-400" />
+            <BarChartIcon className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -98,16 +134,17 @@ const DashboardView = ({ insights }) => {
           </CardContent>
         </Card>
 
-        {/* Demand Level */}
-        <Card className="bg-gray-800/70 backdrop-blur-md hover:shadow-2xl transition-shadow duration-300 rounded-xl border border-gray-700">
-          <CardHeader className="flex items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-200">
-              Demand Level
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+              Demand Status
             </CardTitle>
-            <BriefcaseIcon className="h-5 w-5 text-gray-400" />
+            <ActivityIcon className="h-4 w-4 text-green-700" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{insights.demandLevel}</div>
+            <div className="text-2xl font-bold capitalize">
+              {insights.demandLevel}
+            </div>
             <div
               className={`h-2 w-full rounded-full mt-2 ${getDemandLevelColor(
                 insights.demandLevel
@@ -116,21 +153,17 @@ const DashboardView = ({ insights }) => {
           </CardContent>
         </Card>
 
-        {/* Top Skills */}
-        <Card className="bg-gray-800/70 backdrop-blur-md hover:shadow-2xl transition-shadow duration-300 rounded-xl border border-gray-700">
-          <CardHeader className="flex items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-200">
-              Top Skills
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+              Skill Highlights
             </CardTitle>
-            <Brain className="h-5 w-5 text-gray-400" />
+            <ZapIcon className="h-4 w-4 text-orange-700" />
           </CardHeader>
           <CardContent>
-            <div className="flex flex-wrap gap-2 max-h-32 overflow-auto pr-2">
+            <div className="flex flex-wrap gap-2">
               {insights.topSkills.map((skill) => (
-                <Badge
-                  key={skill}
-                  className="bg-gray-700 text-gray-200 px-3 py-1 rounded-full"
-                >
+                <Badge key={skill} variant="secondary" className="px-2 py-1">
                   {skill}
                 </Badge>
               ))}
@@ -139,74 +172,81 @@ const DashboardView = ({ insights }) => {
         </Card>
       </div>
 
-      {/* Career Roadmap & Highlights */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Career Roadmap */}
-        <Card className="bg-gray-800/70 backdrop-blur-md hover:shadow-2xl transition-shadow duration-300 rounded-xl border border-gray-700">
+      {/* Bottom Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card>
           <CardHeader>
-            <CardTitle className="text-lg text-gray-200">Career Roadmap</CardTitle>
-            <CardDescription className="text-gray-400">
-              Recommended skills and learning resources
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="mb-4">
-              <h3 className="text-lg font-semibold mb-2 text-blue-400">
-                ⭐ Recommended Skills
-              </h3>
-              <div className="flex flex-wrap gap-3">
-                {insights.recommendedSkills.map((skill) => (
-                  <div
-                    key={skill}
-                    className="flex flex-col items-start gap-2 p-3 rounded-xl bg-gray-900/60 border border-gray-700 hover:border-blue-400 transition-colors"
-                  >
-                    <Badge
-                      variant="outline"
-                      className="text-blue-300 border-blue-500 px-3 py-1 rounded-full"
-                    >
-                      {skill}
-                    </Badge>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      className="bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-500"
-                      onClick={() =>
-                        setOpenSkill(openSkill === skill ? null : skill)
-                      }
-                    >
-                      {openSkill === skill ? "Hide Courses" : "View Courses"}
-                    </Button>
-                    {openSkill === skill && (
-                      <div className="w-full mt-2">
-                        <SkillCourses skill={skill} />
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Industry Highlights */}
-        <Card className="bg-gray-800/70 backdrop-blur-md hover:shadow-2xl transition-shadow duration-300 rounded-xl border border-gray-700">
-          <CardHeader>
-            <CardTitle className="text-lg text-gray-200">
+            <CardTitle className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
               Industry Highlights
             </CardTitle>
-            <CardDescription className="text-gray-400">
+            <CardDescription>
               Notable trends currently shaping the sector
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               {insights.keyTrends.map((trend, index) => (
                 <li key={index} className="flex items-start space-x-2">
-                  <div className="h-2 w-2 mt-2 rounded-full bg-blue-400" />
-                  <span className="text-gray-200">{trend}</span>
+                  <div className="h-2 w-2 mt-2 rounded-full bg-primary" />
+                  <span>{trend}</span>
                 </li>
               ))}
             </ul>
+          </CardContent>
+        </Card>
+
+        {/* Recommended Skills with Click Feature */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+              Recommended Skills
+            </CardTitle>
+            <CardDescription>
+              Click a skill to explore recent courses
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-3">
+              {insights.recommendedSkills.map((skill) => (
+                <Badge
+                  key={skill}
+                  variant="outline"
+                  onClick={() => handleSkillClick(skill)}
+                  className="cursor-pointer px-4 py-2 text-base font-semibold rounded-lg border-2 border-blue-400 bg-gradient-to-r from-blue-500/10 to-purple-600/10 text-blue-600 hover:from-blue-500/20 hover:to-purple-600/20 transition"
+                >
+                  {skill}
+                </Badge>
+              ))}
+            </div>
+
+            {/* Courses List */}
+            {selectedSkill && (
+              <div className="mt-4 p-3 border rounded-lg bg-muted/30">
+                <h3 className="font-semibold mb-2 text-lg text-blue-600">
+                  Courses for {selectedSkill}
+                </h3>
+                {loading ? (
+                  <p className="text-sm text-gray-500">Fetching courses...</p>
+                ) : courses.length > 0 ? (
+                  <ul className="list-disc list-inside space-y-1 text-sm">
+                    {courses.map((course, i) => (
+                      <li key={i}>
+                        <a
+                          href={course.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          {course.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-gray-500">No courses found.</p>
+                )}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -215,3 +255,48 @@ const DashboardView = ({ insights }) => {
 };
 
 export default DashboardView;
+
+
+{/* Salary Overview */}
+{/* <Card className="col-span-4">
+  <CardHeader>
+    <CardTitle className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+      Role-Based Salary Overview
+    </CardTitle>
+    <CardDescription>
+      Showing minimum, median, and maximum salary figures (in $K) for each
+      role
+    </CardDescription>
+  </CardHeader>
+  <CardContent>
+    <div className="h-[400px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={salaryData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip
+            content={({ active, payload, label }) => {
+              if (active && payload && payload.length) {
+                return (
+                  <div className="bg-background border rounded-lg p-2 shadow-md">
+                    <p className="font-medium">{label}</p>
+                    {payload.map((item) => (
+                      <p key={item.name} className="text-sm">
+                        {item.name}: ${item.value}K
+                      </p>
+                    ))}
+                  </div>
+                );
+              }
+              return null;
+            }}
+          />
+          <Bar dataKey="min" fill="#94a3b8" name="Min Salary (K)" />
+          <Bar dataKey="median" fill="#64748b" name="Median Salary (K)" />
+          <Bar dataKey="max" fill="#475569" name="Max Salary (K)" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  </CardContent>
+</Card> */}

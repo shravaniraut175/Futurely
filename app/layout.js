@@ -5,7 +5,7 @@ import Header from "../components/header";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { checkUser } from "@/lib/checkUser";
-import { Toaster } from "sonner";
+// import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,12 +35,12 @@ export default async function RootLayout({ children }) {
               {children}
             </main>
 
-            <Toaster richColors />
+            {/* <Toaster richColors /> */}
             {/* footer */}
-            <footer className="bg-muted/50 py-12">
-              <div className="mx-auto max-w-7xl px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
+            {/* <footer className="bg-muted/50 py-12">
+              <div className="mx-auto max-w-7xl px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-10"> */}
 
-                <div className="container mx-auto px-4 text-gray-200">
+                {/* <div className="container mx-auto px-4 text-gray-200">
                   <h2 className="text-2xl font-bold">PragatiIQ</h2>
                   <p className="mt-4 text-gray-300 text-sm leading-relaxed">
                     At <span className="font-semibold">PragatiIQ</span>, we harness the power of
@@ -48,7 +48,7 @@ export default async function RootLayout({ children }) {
                     not only builds resumes but analyzes skill gaps, optimizes for specific roles, and
                     provides actionable insights to grow your career efficiently.
                   </p>
-                </div>
+                </div> */}
 
                 {/* <div>
                   <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-400">
@@ -114,7 +114,7 @@ export default async function RootLayout({ children }) {
 
                 </div>
               </div> */}
-            </div>
+            {/* </div> */}
 
               <div className="border-t border-gray-700 mt-10 text-violet-950">
                 <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
@@ -127,7 +127,7 @@ export default async function RootLayout({ children }) {
                   </div>
                 </div>
               </div>
-            </footer>
+            {/* </footer> */}
           </ThemeProvider>
         </body>
       </html>
