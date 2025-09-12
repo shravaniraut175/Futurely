@@ -67,10 +67,15 @@ export default function ResumeBuilder({ initialContent }) {
   };
 
   return (
-    <div className="space-y-6">
+   <div
+      data-color-mode="dark"
+      className="space-y-6 bg-gradient-to-br from-gray-900 via-gray-800 to-black min-h-screen p-6 rounded-lg shadow-lg text-gray-100"
+    >
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-2">
-        <h1 className="font-bold text-5xl md:text-6xl">Resume Builder</h1>
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <h1 className="font-extrabold text-4xl md:text-6xl bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-400 text-transparent bg-clip-text drop-shadow-lg">
+          Resume Builder
+        </h1>
         <div className="flex gap-2">
           <Button variant="destructive" onClick={handleSubmit(onSubmit)} disabled={isSaving}>
             {isSaving ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : <Save className="h-4 w-4 mr-1" />}
@@ -180,7 +185,7 @@ export default function ResumeBuilder({ initialContent }) {
             )}
 
             {/* Experience / Education / Projects */}
-            {["experience", "education", "projects"].map(section =>
+            {/* {["experience", "education", "projects"].map(section =>
               formValues?.[section]?.length > 0 && (
                 <section key={section}>
                   <h2 className="text-xl font-semibold text-black border-b border-gray-300 pb-1 mb-2">
@@ -192,17 +197,46 @@ export default function ResumeBuilder({ initialContent }) {
                         <div>
                           <strong>{item.title || JSON.stringify(item)}</strong>
                           {item.company && ` at ${item.company}`}
-                          {item.details && <p className="ml-2">{item.details}</p>} {/* User description */}
+                          {item.details && <p className="ml-2">{item.details}</p>} 
                         </div>
                         {item.duration && (
-                          <span className="text-gray-600 text-sm">{item.duration}</span> /* Right-aligned date */
+                          <span className="text-gray-600 text-sm">{item.duration}</span> 
                         )}
                       </li>
                     ))}
                   </ul>
                 </section>
               )
-            )}
+            )} */}
+            {/* Experience / Education / Projects */}
+{["experience", "education", "projects"].map(section =>
+  formValues?.[section]?.length > 0 && (
+    <section key={section}>
+      <h2 className="text-xl font-semibold text-black border-b border-gray-300 pb-1 mb-2">
+        {section.charAt(0).toUpperCase() + section.slice(1)}
+      </h2>
+      <ul className="list-disc list-inside space-y-2 text-gray-800">
+        {formValues[section].map((item, idx) => (
+          <li key={idx} className="flex flex-col md:flex-row justify-between">
+            <div>
+              <strong>{item.title || "Untitled"}</strong>
+              {item.company && ` at ${item.company}`}
+              {item.details && (
+                <p className="ml-2 mt-1">{item.details}</p> // Paragraphs/description
+              )}
+            </div>
+            {item.startDate || item.endDate ? (
+              <span className="text-gray-600 text-sm mt-1 md:mt-0">
+                {item.startDate ? item.startDate : ""} {item.startDate && item.endDate ? " - " : ""} {item.endDate ? item.endDate : ""}
+              </span>
+            ) : null} {/* Dates */}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+)}
+
           </div>
         </TabsContent>
       </Tabs>
