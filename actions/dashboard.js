@@ -5,7 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 export const generateAIInsights = async (industry) => {
   const prompt = `
@@ -42,27 +42,37 @@ export async function getIndustryInsights() {
 
   const user = await db.user.findUnique({
     where: { clerkUserId: userId },
-    include: {
-      industryInsight: true,
-    },
+    include: { industryInsight: true },
   });
 
   if (!user) throw new Error("User not found");
 
-  // If no insights exist, generate them
-  if (!user.industryInsight) {
-    const insights = await generateAIInsights(user.industry);
-
-    const industryInsight = await db.industryInsight.create({
-      data: {
-        industry: user.industry,
-        ...insights,
-        nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      },
-    });
-
-    return industryInsight;
+  // 🔴 HARD STOP if industry is missing
+  if (!user.industry) {
+    return null;
   }
 
-  return user.industryInsight;
+  // Return cached insight if exists
+  if (user.industryInsight) {
+    return user.industryInsight;
+  }
+
+  // Generate only AFTER industry exists
+  const insights = await generateAIInsights(user.industry);
+
+  const industryInsight = await db.industryInsight.create({
+    data: {
+      industry: user.industry, // ✅ guaranteed non-null now
+      salaryRanges: insights.salaryRanges,
+      growthRate: insights.growthRate,
+      demandLevel: insights.demandLevel,
+      topSkills: insights.topSkills,
+      marketOutlook: insights.marketOutlook,
+      keyTrends: insights.keyTrends,
+      recommendedSkills: insights.recommendedSkills,
+      nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    },
+  });
+
+  return industryInsight;
 }

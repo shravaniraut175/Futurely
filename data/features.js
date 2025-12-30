@@ -5,7 +5,7 @@ export const features = [
     icon: <BrainCircuit className="w-10 h-10 mb-4 text-primary" />,
     title: "AI-Powered Resume Optimization",
     description:
-      "PragatiIQ analyzes your experience and target role to generate resumes that highlight strengths, fill skill gaps, and maximize impact.",
+      "Futurely analyzes your experience and target role to generate resumes that highlight strengths, fill skill gaps, and maximize impact.",
   },
   {
     icon: <FileText className="w-10 h-10 mb-4 text-primary" />,

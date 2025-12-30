@@ -34,8 +34,8 @@ const HeroSection = () => {
           transition={{ delay: 0.3, duration: 0.8 }}
           className="mx-auto max-w-[600px] text-muted-foreground md:text-xl"
         >
-          Guiding you with personalized strategies, AI assistance, and
-          practical tools to thrive in your profession.
+          Navigate your career with confidence using AI-driven insights,
+          personalized guidance, and smart tools designed for your growth.
         </motion.p>
 
         {/* Buttons */}
@@ -47,7 +47,7 @@ const HeroSection = () => {
         >
           <Link href="/dashboard">
             <Button size="lg" className="px-8 bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg hover:scale-105 transition-transform">
-              Start Your Journey
+              Start with Futurely
             </Button>
           </Link>
         </motion.div>

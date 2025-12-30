@@ -1,9 +1,18 @@
 import { SignUp } from "@clerk/nextjs";
 
-export default function Page() {
+export default function SignUpPage() {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <SignUp path="/sign-up" routing="path" signInUrl="/sign-in" />
+    <div className="flex min-h-screen items-center justify-center">
+      <SignUp
+        appearance={{
+          elements: {
+            card: "p-6",
+            formButtonPrimary: "py-2 px-4",
+            formFieldInput: "py-2 px-3",
+            formFieldLabel: "mb-1",
+          },
+        }}
+      />
     </div>
   );
 }
