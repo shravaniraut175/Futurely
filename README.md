@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🚀 Futurely
 
-## Getting Started
+**Futurely** is an AI-powered career platform that helps students and professionals generate resumes, CV/cover letters, prepare for interviews, and discover recommended courses — all from one smart dashboard.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Features
+
+- 📄 **Resume Generator** – Create ATS-friendly resumes  
+- ✉️ **CV / Cover Letter Generator** – Personalized letters for different roles  
+- 🎯 **Interview Preparation**
+  - Common interview questions  
+  - Role-based preparation guides  
+  - Smart interview tips  
+- 📚 **Recommended Courses** – AI-suggested learning paths  
+- ⚡ **Fast & Clean UI** – Responsive and performance-optimized  
+
+---
+
+![Futurely Preview](./public/Futurely.png)
+
+## 🛠️ Tech Stack
+
+- **Next.js**
+- **Neon DB (PostgreSQL)**
+- **Prisma ORM**
+- **Tailwind CSS**
+- **Shadcn UI**
+- **Inngest**
+
+---
+
+## 📂 Project Structure
+
+```
+futurely/
+├── app/            # App router pages & layouts
+├── components/     # Reusable UI components
+├── lib/            # Utilities & Prisma client
+├── prisma/         # Database schema
+├── public/         # Static assets
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## ⚙️ Setup & Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Clone the repository
+```bash
+git clone https://github.com/shravaniraut175/futurely.git
+```
 
-## Learn More
+2. Install dependencies
+```bash
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+3. Configure environment variables  
+Create a `.env` file:
+```env
+DATABASE_URL=
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Setup Prisma
+```bash
+npx prisma generate
+npx prisma migrate dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. Run the development server
+```bash
+npm run dev
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 Why Futurely?
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Solves real-world career problems  
+- Built with a modern full-stack setup  
+- Demonstrates scalable architecture  
+- Ideal for portfolios, hackathons & internships  
+
+---
+
+## 🔮 Future Improvements
+
+- Resume scoring & ATS analysis  
+- AI-powered mock interviews  
+- PWA / mobile support  
+- Career roadmap generation  
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
