@@ -27,7 +27,7 @@ export default async function Header() {
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/">
           <Image
-            src={"/Futurely.png"}
+            src={"/Futurely-removebg.png"}
             alt="Futurely Logo"
             width={500}
             height={500}

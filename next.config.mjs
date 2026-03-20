@@ -1,6 +1,13 @@
-/** @type {import('next').NextConfig} */
+import withPWAInit from "next-pwa";
+
+const withPWA = withPWAInit({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+});
+
 const nextConfig = {
-     images: {
+  images: {
     remotePatterns: [
       {
         protocol: "https",
@@ -14,4 +21,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPWA(nextConfig);

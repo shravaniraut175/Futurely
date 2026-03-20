@@ -11,6 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "Futurely",
   description: "AI-powered career companion",
+  manifest: "/manifest.json",
 };
 
 export default async function RootLayout({ children }) {
