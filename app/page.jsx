@@ -46,38 +46,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* <section className="w-full py-12 md:py-24 bg-muted/50">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto text-center">
-
-            <div className="flex flex-col items-center justify-center space-y-2">
-              <h3 className="text-4xl font-bold">50+</h3>
-              <p className="text-muted-foreground">Industries Covered</p>
-              <p className="text-sm text-gray-400">From Tech to Healthcare</p>
-            </div>
-
-            <div className="flex flex-col items-center justify-center space-y-2">
-              <h3 className="text-4xl font-bold">1000+</h3>
-              <p className="text-muted-foreground">Interview Questions</p>
-              <p className="text-sm text-gray-400">Curated by AI Experts</p>
-            </div>
-
-            <div className="flex flex-col items-center justify-center space-y-2">
-              <h3 className="text-4xl font-bold">95%</h3>
-              <p className="text-muted-foreground">Success Rate</p>
-              <p className="text-sm text-gray-400">Users Land Dream Jobs</p>
-            </div>
-
-            <div className="flex flex-col items-center justify-center space-y-2">
-              <h3 className="text-4xl font-bold">24/7</h3>
-              <p className="text-muted-foreground">AI Support</p>
-              <p className="text-sm text-gray-400">Instant Guidance Anytime</p>
-            </div>
-
-          </div>
-        </div>
-      </section> */}
-
+      
       <section className="w-full py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-12">
@@ -112,7 +81,7 @@ export default function LandingPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-muted-foreground">
-              Explore answers to the most common inquiries about PragatiIQ and how it can support your career growth.
+              Explore answers to the most common inquiries about Futurely and how it can support your career growth.
             </p>
           </div>
 
